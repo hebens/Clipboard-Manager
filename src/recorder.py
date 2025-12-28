@@ -2,8 +2,8 @@ import os
 import mss
 import cv2
 import numpy as np
-from datetime import datetime
-import time
+from datetime import datetime, time
+#import time
 import platform
 import pyautogui
 from processor import VideoProcessor
@@ -79,10 +79,9 @@ class ScreenRecorder:
                 # Dynamische Pause, um konstante 30 FPS anzustreben
                 #elapsed = time.time() - start_time
                 #sleep_time = max(0, frame_duration - elapsed)
-                sleep_time = (1/30)
-                time.sleep(sleep_time)
+                time.sleep(1/30)
 
-    def stop_and_save(self, format="mp4", filename="capture"):
+    def stop_and_save(self, format="mp4", filename="Capture"):
         """Beendet die Aufnahme und delegiert an den VideoProcessor."""
         self.recording = False
         frames_to_process = self.frames

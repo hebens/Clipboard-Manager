@@ -157,12 +157,17 @@ class ScreenCaptureApp(QMainWindow):
     def _start_capture(self):
         fmt_text = self.format_box.currentText()
         
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
         if "PNG" in fmt_text:
             # Schneller Screenshot ohne Thread
-            file_path, _ = QFileDialog.getSaveFileName(self, "Save Snap", "", "Image (*.png)")
+            file_path, _ = QFileDialog.getSaveFileName(self, "Speichern Unter", f"Snappshot_{timestamp}", "Image (*.png)")
             if file_path:
                 self.recorder.take_screenshot(file_path)
                 self.status_label.setText("Screenshot gespeichert!")
+
+            self.record_btn.setEnabled(True)
+            self.stop_btn.setEnabled(False)
         else:
             # Video/GIF Aufnahme starten
             self.status_label.setText("Recording")
@@ -191,14 +196,8 @@ class ScreenCaptureApp(QMainWindow):
         
         file_path, _ = QFileDialog.getSaveFileName(
             self, "Speichern unter", 
-            os.path.join(os.path.expanduser("~"), "Desktop", f"Capture_{timestamp}"),
-            filter_str
-        )
-        if not os.path.isabs(file_path):
-            full_path = f"{file_path}_{timestamp}{ext}"
-        else:
-            # full_path = filename
-            full_path = f"{file_path}_{timestamp}{ext}" 
+            os.path.join(os.path.expanduser("~"), "Desktop", f"Capture_{timestamp}"), filter_str)
+        full_path = f"{file_path}_{timestamp}{ext}" 
 
         if file_path:
             fmt_key = "mp4" if ext == ".mp4" else "gif"
